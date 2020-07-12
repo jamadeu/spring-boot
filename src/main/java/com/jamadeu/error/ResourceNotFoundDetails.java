@@ -3,36 +3,7 @@ package com.jamadeu.error;
 /**
  * Created by Jean Amadeu 12 julho 2020
  */
-public class ResourceNotFoundDetails {
-    private String title;
-    private int status;
-    private String detail;
-    private long timestamp;
-    private String developerMessage;
-
-    private ResourceNotFoundDetails() {
-    }
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public String getDeveloperMessage() {
-        return developerMessage;
-    }
+public class ResourceNotFoundDetails extends ErrorDetail {
 
     public static final class Builder {
         private String title;
@@ -75,11 +46,11 @@ public class ResourceNotFoundDetails {
 
         public ResourceNotFoundDetails build() {
             ResourceNotFoundDetails resourceNotFoundDetails = new ResourceNotFoundDetails();
-            resourceNotFoundDetails.status = status;
-            resourceNotFoundDetails.developerMessage = developerMessage;
-            resourceNotFoundDetails.detail = detail;
-            resourceNotFoundDetails.timestamp = timestamp;
-            resourceNotFoundDetails.title = title;
+            resourceNotFoundDetails.setStatus(status);
+            resourceNotFoundDetails.setDeveloperMessage(developerMessage);
+            resourceNotFoundDetails.setDetail(detail);
+            resourceNotFoundDetails.setTimestamp(timestamp);
+            resourceNotFoundDetails.setTitle(title);
             return resourceNotFoundDetails;
         }
     }
