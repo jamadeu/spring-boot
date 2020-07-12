@@ -30,7 +30,7 @@ public class StudentEndpoint {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Student> student = studentRepository.findById(id);
         if (student == null) {
             return new ResponseEntity<>(new CustomErrorType("Student not found"), HttpStatus.NOT_FOUND);
