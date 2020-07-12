@@ -34,41 +34,41 @@ public class ResourceNotFoundDetails {
         return developerMessage;
     }
 
-    public static final class ResourceNotFoundDetailsBuilder {
+    public static final class Builder {
         private String title;
         private int status;
         private String detail;
         private long timestamp;
         private String developerMessage;
 
-        private ResourceNotFoundDetailsBuilder() {
+        private Builder() {
         }
 
-        public static ResourceNotFoundDetailsBuilder newBuilder() {
-            return new ResourceNotFoundDetailsBuilder();
+        public static Builder newBuilder() {
+            return new Builder();
         }
 
-        public ResourceNotFoundDetailsBuilder title(String title) {
+        public Builder title(String title) {
             this.title = title;
             return this;
         }
 
-        public ResourceNotFoundDetailsBuilder status(int status) {
+        public Builder status(int status) {
             this.status = status;
             return this;
         }
 
-        public ResourceNotFoundDetailsBuilder detail(String detail) {
+        public Builder detail(String detail) {
             this.detail = detail;
             return this;
         }
 
-        public ResourceNotFoundDetailsBuilder timestamp(long timestamp) {
+        public Builder timestamp(long timestamp) {
             this.timestamp = timestamp;
             return this;
         }
 
-        public ResourceNotFoundDetailsBuilder developerMessage(String developerMessage) {
+        public Builder developerMessage(String developerMessage) {
             this.developerMessage = developerMessage;
             return this;
         }
