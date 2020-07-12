@@ -1,6 +1,6 @@
 package com.jamadeu.endpoint;
 
-import com.jamadeu.error.CustomErrorType;
+import com.jamadeu.error.ResourceNotFoundException;
 import com.jamadeu.model.Student;
 import com.jamadeu.repository.IStudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +30,9 @@ public class StudentEndpoint {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+        checkStudentExists(id);
         Optional<Student> student = studentRepository.findById(id);
-        if (student == null) {
-            return new ResponseEntity<>(new CustomErrorType("Student not found"), HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
@@ -50,13 +48,22 @@ public class StudentEndpoint {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
+        checkStudentExists(id);
         studentRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Student student) {
+        checkStudentExists(student.getId());
         studentRepository.save(student);
         return new ResponseEntity<>(student, HttpStatus.OK);
+    }
+
+    private void checkStudentExists(Long id) {
+        if (studentRepository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Student not found for ID: " + id);
+        }
+
     }
 }
