@@ -3,7 +3,7 @@ package com.jamadeu.error;
 /**
  * Created by Jean Amadeu 12 julho 2020
  */
-public class ValidationErrorDetails extends ErrorDetail {
+public class ValidationErrorDetails extends ErrorDetails {
     private String field;
     private String fieldMessage;
 

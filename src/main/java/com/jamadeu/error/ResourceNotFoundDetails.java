@@ -3,7 +3,7 @@ package com.jamadeu.error;
 /**
  * Created by Jean Amadeu 12 julho 2020
  */
-public class ResourceNotFoundDetails extends ErrorDetail {
+public class ResourceNotFoundDetails extends ErrorDetails {
 
     public static final class Builder {
         private String title;
