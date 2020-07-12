@@ -38,6 +38,11 @@ public class StudentEndpoint {
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/findByName/{name}")
+    public ResponseEntity<?> findByName(@PathVariable String name) {
+        return new ResponseEntity<>(studentRepository.findByName(name), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> save(@RequestBody Student student) {
         return new ResponseEntity<>(studentRepository.save(student), HttpStatus.OK);
