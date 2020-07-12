@@ -40,7 +40,7 @@ public class StudentEndpoint {
 
     @GetMapping(path = "/findByName/{name}")
     public ResponseEntity<?> findByName(@PathVariable String name) {
-        return new ResponseEntity<>(studentRepository.findByName(name), HttpStatus.OK);
+        return new ResponseEntity<>(studentRepository.findByNameIgnoreCaseContaining(name), HttpStatus.OK);
     }
 
     @PostMapping
