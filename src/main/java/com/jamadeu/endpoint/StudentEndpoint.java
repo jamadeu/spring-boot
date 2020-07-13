@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ import java.util.Optional;
  * Created by Jean Amadeu 12 julho 2020
  */
 @RestController
-@RequestMapping("students")
+@RequestMapping("v1")
 public class StudentEndpoint {
 
     private final IStudentRepository studentRepository;
@@ -29,12 +28,12 @@ public class StudentEndpoint {
         this.studentRepository = studentRepository;
     }
 
-    @GetMapping
+    @GetMapping(path = "protected/students")
     public ResponseEntity<?> listAll(Pageable pageable) {
         return new ResponseEntity<>(studentRepository.findAll(pageable), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("protected/students/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails) {
         System.out.println(userDetails);
         checkStudentExists(id);
@@ -42,25 +41,24 @@ public class StudentEndpoint {
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/findByName/{name}")
+    @GetMapping(path = "protected/students/findByName/{name}")
     public ResponseEntity<?> findByName(@PathVariable String name) {
         return new ResponseEntity<>(studentRepository.findByNameIgnoreCaseContaining(name), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(path = "admin/students")
     public ResponseEntity<?> save(@Valid @RequestBody Student student) {
         return new ResponseEntity<>(studentRepository.save(student), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping(path = "admin/students/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         checkStudentExists(id);
         studentRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(path = "/admin/students")
     public ResponseEntity<?> update(@RequestBody Student student) {
         checkStudentExists(student.getId());
         studentRepository.save(student);
