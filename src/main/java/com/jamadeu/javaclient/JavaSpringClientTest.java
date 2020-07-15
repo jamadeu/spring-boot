@@ -1,14 +1,12 @@
 package com.jamadeu.javaclient;
 
+import com.jamadeu.model.PagebleResponse;
 import com.jamadeu.model.Student;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Jean Amadeu 07/13/2020
@@ -21,19 +19,29 @@ public class JavaSpringClientTest {
                 .build();
         Student student = restTemplate.getForObject("/{id}", Student.class, 2);
         ResponseEntity<Student> forEntity = restTemplate.getForEntity("/{id}", Student.class, 2);
-        System.out.println(student);
-        System.out.println(forEntity);
-        Student[] students = restTemplate.getForObject("/", Student[].class);
-        System.out.println(Arrays.toString(students));
-        ResponseEntity<List<Student>> exchange = restTemplate.exchange(
-                "/",
+//        System.out.println(student);
+//        System.out.println(forEntity);
+//        Student[] students = restTemplate.getForObject("/", Student[].class);
+//        System.out.println(Arrays.toString(students));
+//        ResponseEntity<List<Student>> exchange = restTemplate.exchange(
+//                "/",
+//                HttpMethod.GET,
+//                null,
+//                new ParameterizedTypeReference<List<Student>>() {
+//                }
+//        );
+//
+//        System.out.println(exchange.getBody());
+
+        ResponseEntity<PagebleResponse<Student>> exchange = restTemplate.exchange(
+                "/?sort=id,desc",
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<Student>>() {
+                new ParameterizedTypeReference<PagebleResponse<Student>>() {
                 }
         );
 
-        System.out.println(exchange.getBody());
+        System.out.println(exchange);
 
     }
 }
