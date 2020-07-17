@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -49,5 +51,15 @@ public class StudentRepositoryTest {
         Student updatedStudent = this.studentRepository.findById(student.getId()).orElse(null);
         assertThat(updatedStudent.getName()).isEqualTo("student2");
         assertThat(updatedStudent.getEmail()).isEqualTo("student2@exemple.com");
+    }
+
+    @Test
+    public void findByNameIgnoreCaseContainingShouldIgnoreCase() {
+        Student student = new Student("student", "student@exemple.com");
+        Student student2 = new Student("Student", "student2@exemple.com");
+        this.studentRepository.save(student);
+        this.studentRepository.save(student2);
+        List<Student> list = this.studentRepository.findByNameIgnoreCaseContaining("student");
+        assertThat(list.size()).isEqualTo(2);
     }
 }
