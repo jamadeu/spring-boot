@@ -15,6 +15,14 @@ public class Student extends AbstractEntity {
     @Email
     private String email;
 
+    public Student() {
+    }
+
+    public Student(@NotEmpty String name, @NotEmpty @Email String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
