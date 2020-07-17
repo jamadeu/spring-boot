@@ -38,4 +38,16 @@ public class StudentRepositoryTest {
         this.studentRepository.delete(student);
         assertThat(this.studentRepository.findById(student.getId())).isEmpty();
     }
+
+    @Test
+    public void updateShouldUpdateAndPersistData() {
+        Student student = new Student("student", "student@exemple.com");
+        this.studentRepository.save(student);
+        student.setName("student2");
+        student.setEmail("student2@exemple.com");
+        this.studentRepository.save(student);
+        Student updatedStudent = this.studentRepository.findById(student.getId()).orElse(null);
+        assertThat(updatedStudent.getName()).isEqualTo("student2");
+        assertThat(updatedStudent.getEmail()).isEqualTo("student2@exemple.com");
+    }
 }
