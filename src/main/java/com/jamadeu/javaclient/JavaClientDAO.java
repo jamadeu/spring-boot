@@ -54,4 +54,12 @@ public class JavaClientDAO {
         return exchangePost.getBody();
     }
 
+    public void update(Student student) {
+        restTemplateAdmin.put("/", student);
+    }
+
+    public void delete(long id) {
+        restTemplateAdmin.delete("/{id}", id);
+    }
+
 }
