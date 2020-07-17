@@ -2,13 +2,19 @@ package com.jamadeu;
 
 import com.jamadeu.model.Student;
 import com.jamadeu.repository.IStudentRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,9 +26,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class StudentRepositoryTest {
-
     @Autowired
     private IStudentRepository studentRepository;
+
+    private Validator validator;
+
+    @BeforeEach
+    public void setUpValidator() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        this.validator = factory.getValidator();
+    }
 
     @Test
     public void createShouldPersistData() {
@@ -62,4 +75,13 @@ public class StudentRepositoryTest {
         List<Student> list = this.studentRepository.findByNameIgnoreCaseContaining("student");
         assertThat(list.size()).isEqualTo(2);
     }
+
+    @Test
+    public void createWhenNameIsNullShouldThrowConstraintViolationException() {
+        Student student = new Student("", "email@gmail.com");
+        Set<ConstraintViolation<Student>> constraintViolations = this.validator.validate(student);
+        System.out.println(constraintViolations.iterator());
+        assertThat(constraintViolations.size()).isEqualTo(1);
+    }
+
 }
