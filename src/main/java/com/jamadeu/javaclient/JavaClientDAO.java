@@ -1,5 +1,6 @@
 package com.jamadeu.javaclient;
 
+import com.jamadeu.handler.RestResponseExceptionHandler;
 import com.jamadeu.model.PagebleResponse;
 import com.jamadeu.model.Student;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -16,10 +17,12 @@ public class JavaClientDAO {
     private RestTemplate restTemplate = new RestTemplateBuilder()
             .rootUri("http://localhost:8080/v1/protected/students")
             .basicAuthentication("user", "123123")
+            .errorHandler(new RestResponseExceptionHandler())
             .build();
     private RestTemplate restTemplateAdmin = new RestTemplateBuilder()
             .rootUri("http://localhost:8080/v1/admin/students")
             .basicAuthentication("admin", "123123")
+            .errorHandler(new RestResponseExceptionHandler())
             .build();
 
     private static HttpHeaders createJSONHeader() {
