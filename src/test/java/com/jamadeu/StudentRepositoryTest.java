@@ -79,9 +79,29 @@ public class StudentRepositoryTest {
     @Test
     public void createWhenNameIsNullShouldThrowConstraintViolationException() {
         Student student = new Student("", "email@gmail.com");
-        Set<ConstraintViolation<Student>> constraintViolations = this.validator.validate(student);
-        System.out.println(constraintViolations.iterator());
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        Set<ConstraintViolation<Student>> violations = this.validator.validate(student);
+        ConstraintViolation<Student> violation = violations.iterator().next();
+        assertThat(violations.size()).isEqualTo(1);
+        assertThat(violation.getMessageTemplate()).isEqualTo("O campo nome é obrigatório");
     }
 
+    @Test
+    public void createWhenEmailIsNullShouldThrowConstraintViolationException() {
+        Student student = new Student("student", "");
+        Set<ConstraintViolation<Student>> violations = this.validator.validate(student);
+        ConstraintViolation<Student> violation = violations.iterator().next();
+        assertThat(violations.size()).isEqualTo(1);
+        assertThat(violation.getMessageTemplate()).isEqualTo("O campo email é obrigatório");
+    }
+
+    @Test
+    public void createWhenEmailIsNotValidShouldThrowConstraintViolationException() {
+        Student student = new Student("student", "asd");
+        Set<ConstraintViolation<Student>> violations = this.validator.validate(student);
+        ConstraintViolation<Student> violation = violations.iterator().next();
+        System.out.println(violation);
+        assertThat(violations.size()).isEqualTo(1);
+        assertThat(violation.getMessageTemplate()).isEqualTo("{javax.validation.constraints.Email.message}");
+
+    }
 }
