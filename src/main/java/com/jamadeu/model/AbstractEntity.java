@@ -13,7 +13,12 @@ import java.util.Objects;
 public class AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getId());
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -24,16 +29,11 @@ public class AbstractEntity {
             return false;
         }
         AbstractEntity that = (AbstractEntity) o;
-        return Objects.equals(getId(), that.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.equals(this.getId(), that.getId());
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
